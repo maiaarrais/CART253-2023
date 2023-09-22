@@ -5,7 +5,11 @@
  * This is a template. You must fill in the title, author, 
  * and this description to match your project!
  */
-
+let bg = {
+    r: 0,
+    g: 100,
+    b: 100
+};
 let rectangle1 = {
     x: 100,
     y: 50,
@@ -75,14 +79,14 @@ function setup()
 {
     createCanvas(windowWidth, windowHeight);
     noStroke();
-   
 
 }
 
 //drawing
 function draw() {
-    background(0, 100, 100);
-    
+    background(bg.r, bg.g, bg.b);
+    bg.b = map(myCircle2.x, 100, width, 0, 255);
+
     fill(0);
     //rectangle 1 left
     rect(rectangle1.x, rectangle1.y, rectangle1.size);
@@ -98,7 +102,6 @@ function draw() {
     rect(rectangleRight2.x, rectangleRight2.y, rectangleRight2.size);
 
     // circle in rectangle 1 
-    var xhi = 600;
     fill(255, 0, 0);
     ellipse(myCircle1.x, myCircle1.y, myCircle1.size);
     myCircle1.x += myCircle1.speed;
@@ -117,18 +120,9 @@ function draw() {
     //circle in right rectangle 1
     fill(0, 200, 0);
     ellipse(myCircle4.x, myCircle4.y, myCircle4.size);
-    
     //circle in right rectangle 2
     ellipse(myCircle5.x, myCircle5.y, myCircle5.size);
     myCircle5.x += myCircle5.speed;
-     
-    
-
-     
-     
-  
-  
-
 
 }
     
