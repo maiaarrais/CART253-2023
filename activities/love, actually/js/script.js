@@ -1,7 +1,7 @@
 /**
  * Love, Actually - Activity  
  * Maia Arrais 
- * The purpose of this program is 
+ * This program takes two circles that are trying to find each other (find true love) and display an output message. 
  * 
  */
 
