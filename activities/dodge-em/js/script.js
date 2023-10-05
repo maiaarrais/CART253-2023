@@ -59,7 +59,7 @@ function draw() {
   user.y = mouseY;
 
   // Create new random balls 
-  if (frameCount % 15 == 0) { // Create a new ball every 30 frames
+  if (frameCount % 20 == 0) { // Create a new ball every 30 frames
     let newBall = new Ball();
     balls.push(newBall);
   }
