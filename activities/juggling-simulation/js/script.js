@@ -10,8 +10,10 @@ let burger;
 let ingredients = [];
 
 function preload() {
-  burger = loadImage('burger.png'); // Replace with your burger image path
-  ingredientImage = loadImage('ingredient.png'); // Replace with your ingredient image path
+  //burger bun image preload 
+  burger = loadImage('images/assets/burger.png'); 
+  //burger meat image preload
+  ingredientImage = loadImage('images/assets/ingredients.png'); 
 }
 
 function setup() {
@@ -20,7 +22,7 @@ function setup() {
   // Create burger object
   burger = new Burger(width / 2, height - 100, 100, 100, burger);
 
-  // Create ingredients
+  // Create meat object 
   for (let i = 0; i < 5; i++) {
     let x = random(width);
     let y = random(height / 2);
@@ -36,13 +38,13 @@ function draw() {
   burger.display();
   burger.move();
 
-  // Display and handle ingredients
+  // Display and handle meat
   for (let i = ingredients.length - 1; i >= 0; i--) {
     ingredients[i].display();
     ingredients[i].move();
     ingredients[i].bounceOffBurger(burger);
 
-    // Remove ingredients that are out of the canvas
+    // Remove meat that are out of the canvas
     if (ingredients[i].y > height) {
       ingredients.splice(i, 1);
     }
