@@ -11,9 +11,9 @@ let ingredients = [];
 
 function preload() {
   //burger bun image preload 
-  burger = loadImage('images/assets/burger.png'); 
+  burger = loadImage('assets/images/burger.png'); 
   //burger meat image preload
-  ingredientImage = loadImage('images/assets/ingredients.png'); 
+  ingredientImage = loadImage('assets/images/ingredients.png'); 
 }
 
 function setup() {
