@@ -14,8 +14,22 @@ class Ingredient {
     }
   
     move() {
-     // Adjust the vertical position based on the speed
-      this.y += this.speedY;
+        if (this.bounce) {
+            this.y += this.speedY;
+      
+            // Check if the ingredient is out of the canvas boundaries
+            if (this.y < 0) {
+              this.speedY = abs(this.speedY); // Reverse direction when reaching the top
+            } else if (this.y + this.height > height) {
+              // Remove the ingredient when it goes out of bounds
+              let index = ingredients.indexOf(this);
+              if (index !== -1) {
+                ingredients.splice(index, 1);
+              }
+            }
+          } else {
+            this.y += this.speedY;
+          }
     }
   
     bounceOffBurger(burger) {
@@ -24,7 +38,7 @@ class Ingredient {
             this.x < burger.x + burger.width &&
             this.y + this.height > burger.y
           ) {
-            this.speedY = -this.speedY; // Reverse the vertical direction
+            this.speedY = -this.speedY; // Reverse the vertical direction when it touches the burger
           }
     }
   }

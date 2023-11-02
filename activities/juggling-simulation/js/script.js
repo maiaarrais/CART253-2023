@@ -43,10 +43,6 @@ function draw() {
     ingredients[i].display();
     ingredients[i].move();
     ingredients[i].bounceOffBurger(burger);
-
-    // Remove meat that are out of the canvas
-    if (ingredients[i].y > height) {
-      ingredients.splice(i, 1);
-    }
+ 
   }
 }
