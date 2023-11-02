@@ -1,51 +1,50 @@
 /**
- * Title of Project
- * Author Name
+ * Juggling-Simulation (The Burger Bounce)
+ * Maia Arrais- 40246035
  * 
  * This is a template. You must fill in the title, author, 
  * and this description to match your project!
  */
 
-"use strict";
+let burger;
+let ingredients = [];
 
-/**
- * Description of preload
-*/
 function preload() {
-
+  burger = loadImage('burger.png'); // Replace with your burger image path
+  ingredientImage = loadImage('ingredient.png'); // Replace with your ingredient image path
 }
 
+function setup() {
+  createCanvas(800, 600);
 
-/**
- * Description of setup
-*/
-function setup() 
-{
-    createCanvas(640, 480);
-    background(0, 255, 100);
-    noStroke();
-    //body of the alien 
-    fill(240, 50, 100);
-    ellipse(320, 470, 300, 180);
-    //head of the alien
-    fill(255, 50, 100);
-    ellipse(320, 230, 300, 400);
-    //drawing the eyes
-    fill (0, 0, 0);
-    ellipse(250, 200, 85, 250 );
-    ellipse(390, 200, 85, 250);
-    //nostrils of the alien 
-    fill(0, 0, 0); 
-    ellipse(310, 300, 10);
-    ellipse(330, 300, 10);
+  // Create burger object
+  burger = new Burger(width / 2, height - 100, 100, 100, burger);
 
+  // Create ingredients
+  for (let i = 0; i < 5; i++) {
+    let x = random(width);
+    let y = random(height / 2);
+    let ingredient = new Ingredient(x, y, 50, 50, ingredientImage, random(1, 3));
+    ingredients.push(ingredient);
+  }
 }
 
-
-/**
- * Description of draw()
-*/
 function draw() {
-   
-    
+  background(220);
+
+  // Display and move the burger
+  burger.display();
+  burger.move();
+
+  // Display and handle ingredients
+  for (let i = ingredients.length - 1; i >= 0; i--) {
+    ingredients[i].display();
+    ingredients[i].move();
+    ingredients[i].bounceOffBurger(burger);
+
+    // Remove ingredients that are out of the canvas
+    if (ingredients[i].y > height) {
+      ingredients.splice(i, 1);
+    }
+  }
 }
