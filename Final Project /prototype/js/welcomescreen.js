@@ -1,9 +1,14 @@
-let backgroundColors = ['#FFD700', '#87CEEB', '#8B4513'];
+    let backgroundColors = ['#000', '#002633', '#330000'];
     let currentBackgroundColor = 0;
     let transitionDuration = 3000;
 
     // Particle variables
     let particles = [];
+
+    // Spiral variables
+    let angle = 0;
+    let angleIncrement = 0.01;
+    let radiusIncrement = 0.1;
 
     function setup() {
       createCanvas(windowWidth, windowHeight);
@@ -18,9 +23,44 @@ let backgroundColors = ['#FFD700', '#87CEEB', '#8B4513'];
     function draw() {
       background(backgroundColors[currentBackgroundColor]);
       updateParticles();
+      drawTimeMachine();
+      updateSpiral();
       displayWelcomeText();
     }
 
+    function drawTimeMachine() {
+      translate(width / 2, height / 2);
+
+      // Draw the outer rings of the time machine
+      for (let i = 0; i < 5; i++) {
+        stroke(255, 150);
+        noFill();
+        strokeWeight(2);
+        ellipse(0, 0, i * 60, i * 60);
+      }
+
+      // Draw the central vortex
+      noStroke();
+      fill(255, 50);
+      ellipse(0, 0, 20, 20);
+    }
+    // for the spirals and how they're displayed 
+    function updateSpiral() {
+      translate(width / 2, height / 2);
+      rotate(angle);
+      let radius = 0;
+
+      for (let i = 0; i < 200; i++) {
+        let x = radius * cos(i);
+        let y = radius * sin(i);
+        fill(255);
+        ellipse(x, y, 5, 5);
+        radius += radiusIncrement;
+      }
+
+      angle += angleIncrement;
+    }
+    // for the particles 
     function updateParticles() {
       for (let particle of particles) {
         particle.update();
@@ -32,7 +72,7 @@ let backgroundColors = ['#FFD700', '#87CEEB', '#8B4513'];
       fill(255);
       textSize(48);
       textAlign(CENTER, CENTER);
-      text('Temporal Quest', width / 2, height / 2);
+      text('Time Travel Quest', width / 2, height / 2);
       textSize(24);
       text('Click to Start', width / 2, height / 2 + 50);
     }
