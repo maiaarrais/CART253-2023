@@ -77,14 +77,14 @@
     function displayWelcomeText() {
       // Border
       stroke(0);
-      strokeWeight(2);
+      strokeWeight(5);
       //title 
       fill(255);
-      textSize(48);
+      textSize(55);
       textAlign(CENTER, CENTER);
       text('Time Travel Quest', 0, 0);
       //subtitle
-      textSize(24);
+      textSize(30);
       text('Click to Start', 0, 50);
       // Reset stroke settings
       noStroke();
