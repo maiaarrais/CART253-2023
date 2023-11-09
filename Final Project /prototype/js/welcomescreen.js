@@ -1,4 +1,7 @@
-    let backgroundColors = ['#000', '#002633', '#330000'];
+   
+   
+   
+   let backgroundColors = ['#000', '#002633', '#330000'];
     let currentBackgroundColor = 0;
     let transitionDuration = 3000;
 
@@ -7,15 +10,15 @@
 
     // Spiral variables
     let angle = 0;
-    let angleIncrement = 0.01;
-    let radiusIncrement = 0.1;
+    let angleIncrement = 0.05;
+    let radiusIncrement = 0.5;
 
     function setup() {
       createCanvas(windowWidth, windowHeight);
       setInterval(changeTimePeriod, transitionDuration);
 
       // Create initial particles
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 100; i++) {
         particles.push(new Particle());
       }
     }
@@ -36,21 +39,22 @@
         stroke(255, 150);
         noFill();
         strokeWeight(2);
-        ellipse(0, 0, i * 60, i * 60);
+        ellipse(0, 0, i * 120, i * 120); // adjustment of spiral size
       }
 
       // Draw the central vortex
       noStroke();
       fill(255, 50);
-      ellipse(0, 0, 20, 20);
+      ellipse(0, 0, 50, 50);
     }
     // for the spirals and how they're displayed 
     function updateSpiral() {
-      translate(width / 2, height / 2);
+      push(); // Save the current transformation state
+      translate(0, 0);
       rotate(angle);
       let radius = 0;
 
-      for (let i = 0; i < 200; i++) {
+      for (let i = 0; i < 600; i++) { // Increased the number of points for a denser spiral
         let x = radius * cos(i);
         let y = radius * sin(i);
         fill(255);
@@ -58,8 +62,10 @@
         radius += radiusIncrement;
       }
 
+      pop(); // Restore the previous transformation state
       angle += angleIncrement;
     }
+
     // for the particles 
     function updateParticles() {
       for (let particle of particles) {
@@ -69,12 +75,19 @@
     }
 
     function displayWelcomeText() {
+      // Border
+      stroke(0);
+      strokeWeight(2);
+      //title 
       fill(255);
       textSize(48);
       textAlign(CENTER, CENTER);
-      text('Time Travel Quest', width / 2, height / 2);
+      text('Time Travel Quest', 0, 0);
+      //subtitle
       textSize(24);
-      text('Click to Start', width / 2, height / 2 + 50);
+      text('Click to Start', 0, 50);
+      // Reset stroke settings
+      noStroke();
     }
 
     function changeTimePeriod() {
