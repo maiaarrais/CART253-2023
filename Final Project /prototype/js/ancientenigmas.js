@@ -109,29 +109,28 @@ function swapPuzzlePieces(i, j, randI, randJ) {
 }
 
 function mousePressed() {
-  if (imgLoaded) {
-    // Check if a gallery image was clicked
-    for (let i = 0; i < images.length; i++) {
-      let imgX = i * 230 + 10; // width of each image plus 10px margin
-      let imgY = height / 2;
-      if (
-        mouseX > imgX &&
-        mouseX < imgX + 200 &&
-        mouseY > imgY &&
-        mouseY < imgY + 150
-      ) {
-        loadImage(images[i], (loadedImage) => {
-          imgLoaded = true;
-          img = loadedImage; // Set the loaded image
-          cols = 3;
-          rows = 3;
-          tileSize = width / cols;
-          initializePuzzle();
-           showGallery = false; // Hide the gallery
-        });
-      }
-    }
-
+    if (imgLoaded && showGallery) {
+        // Check if a gallery image was clicked
+        for (let i = 0; i < images.length; i++) {
+          let imgX = i * 230 + 10; // width of each image plus 10px margin
+          let imgY = height / 2;
+          if (
+            mouseX > imgX &&
+            mouseX < imgX + 200 &&
+            mouseY > imgY &&
+            mouseY < imgY + 150
+          ) {
+            loadImage(images[i], (loadedImage) => {
+              img = loadedImage;
+              img.resize(width, height); // Resize the image to fit the screen
+              cols = 3;
+              rows = 3;
+              tileSize = width / cols;
+              initializePuzzle();
+              showGallery = false; // Hide the gallery
+            });
+          }
+        }
     // Check which puzzle piece was clicked
     let i = floor(mouseX / tileSize);
     let j = floor(mouseY / tileSize);
