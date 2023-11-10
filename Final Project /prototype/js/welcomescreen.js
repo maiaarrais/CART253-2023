@@ -25,7 +25,7 @@
 
       //Music for the main screen 
       backgroundMusic.play();
-      backgroundMusic.setVolume(0.5); //volume of the music
+      backgroundMusic.setVolume(0.5); //volume of the music (50%)
 
       // Create initial particles
       for (let i = 0; i < 100; i++) {

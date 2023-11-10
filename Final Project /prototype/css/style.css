@@ -22,3 +22,21 @@ body {
 canvas {
   display: block;
 }
+
+#fileInput {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.image-gallery {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.image-gallery img {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
