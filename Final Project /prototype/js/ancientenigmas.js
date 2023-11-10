@@ -127,7 +127,7 @@ function mousePressed() {
           rows = 3;
           tileSize = width / cols;
           initializePuzzle();
-          showGallery = false; // Hide the gallery
+           showGallery = false; // Hide the gallery
         });
       }
     }
