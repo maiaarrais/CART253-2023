@@ -95,7 +95,7 @@
     }
 
     function mouseClicked() {
-      window.location.href = "game.html";
+      window.location.href = "games.html";
     }
 
     // Particle class
