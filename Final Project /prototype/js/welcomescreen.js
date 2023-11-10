@@ -4,6 +4,7 @@
    let backgroundColors = ['#000', '#002633', '#330000'];
     let currentBackgroundColor = 0;
     let transitionDuration = 3000;
+    let backgroundMusic;
 
     // Particle variables
     let particles = [];
@@ -13,9 +14,18 @@
     let angleIncrement = 0.05;
     let radiusIncrement = 0.5;
 
+    function preload() {
+      //background music file
+      backgroundMusic = loadSound('assets/sounds/backgroundMusic.mp3');
+    }
+
     function setup() {
       createCanvas(windowWidth, windowHeight);
       setInterval(changeTimePeriod, transitionDuration);
+
+      //Music for the main screen 
+      backgroundMusic.play();
+      backgroundMusic.setVolume(0.5); //volume of the music
 
       // Create initial particles
       for (let i = 0; i < 100; i++) {
