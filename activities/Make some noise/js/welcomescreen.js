@@ -37,6 +37,12 @@ class Circle {
 
   move() {
     this.position.add(this.velocity);
+
+    // Oscillator frequency based on distance from the center
+    let distance = dist(this.position.x, this.position.y, width / 2, height / 2);
+    let maxDistance = dist(0, 0, width / 2, height / 2);
+    let newFreq = map(distance, 0, maxDistance, 220, 880);
+    this.oscillator.freq(newFreq);
   }
 
   checkEdges() {
@@ -51,9 +57,8 @@ class Circle {
   }
 
   playNote() {
-    // Map the distance from the center to a musical note
-    let note = map(dist(this.position.x, this.position.y, width / 2, height / 2), 0, width / 2, 220, 880);
-    this.oscillator.freq(note);
+      // Play the note using the synthesizer
+      this.synth.play(this.note, 0.2, 0, 0.1);
   }
 
   display() {
