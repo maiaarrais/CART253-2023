@@ -13,3 +13,6 @@ function draw() {
     circle.display();
   }
 }
+function mousePressed() {
+  circles.push(new Circle(mouseX, mouseY));
+}
