@@ -1,5 +1,6 @@
 let backgroundImage;
 let narratorImage;
+let initialSize = 200;
 let continueButton;
 let storyTexts = [
   "Once upon a time...",
@@ -12,7 +13,9 @@ let currentTextIndex = 0;
 
 function preload() {
   backgroundImage = loadImage('assets/images/ancientbg.jpeg');
-  narratorImage = loadImage('assets/images/traveler.png');
+  narratorImage = loadImage('assets/images/traveler.png', img => {
+    img.resize(initialSize, 0); // Resize only the width while maintaining aspect ratio
+  });
 }
 
 function setup() {
@@ -21,6 +24,7 @@ function setup() {
   continueButton = createButton('Continue');
   continueButton.position(width / 2 - 50, height - 50);
   continueButton.mousePressed(advanceStory);
+  
 }
 
 function draw() {
@@ -34,6 +38,9 @@ function draw() {
 
   // Display continue button
   continueButton.show();
+
+   // Display the traveler image with dynamic size
+   image(narratorImage, mouseX, mouseY);
 }
 
 function displaySquareBubbleText(text, x, y) {
