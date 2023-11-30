@@ -41,7 +41,7 @@ function drawNarrator() {
   let rectHeight = 200;
   let ovalRadius = 20;
   let rectX = (width - rectWidth) / 2;
-  let rectY = height - rectHeight - 20;
+  let rectY = (300);
 
   fill(255, 200);
   stroke(255);
@@ -60,8 +60,8 @@ function drawNarrator() {
   endShape(CLOSE);
 
   // Draw the narrator image
-  let narratorWidth = 100;
-  let narratorHeight = 100;
+  let narratorWidth = 250;
+  let narratorHeight = 250;
   let narratorX = (width - narratorWidth) / 2;
   let narratorY = rectY - narratorHeight - 20;
 
@@ -72,9 +72,9 @@ function drawTextBox() {
   // Draw the text on top
   textAlign(CENTER, CENTER);
   textSize(24);
-  fill(255);
+  fill(0);
   noStroke();
-  text("Your text goes here", width / 2, height - 150);
+  text("Hi there! Welcome to the Ancient Civilizations.\n When you click continue you will see three puzzles,\nclick on the easy level to learn about Mesopotamia,\n on the medium level to learn about Ancient Egypt, \n and on the hard level to learn about Ancient India.", width / 2, 400);
 }
 
 function goToSecondScreen() {
