@@ -155,9 +155,7 @@ function isNeighbor(i, j, x, y) {
   return false;
 }
 
-
-// Probably could just use a variable
-// to track blank spot
+// track blank spot
 function findBlank() {
   for (let i = 0; i < board.length; i++) {
     if (board[i] == -1) return i;
