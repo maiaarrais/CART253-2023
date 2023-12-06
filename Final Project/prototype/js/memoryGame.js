@@ -1,9 +1,8 @@
 let cards = [];
-let cardSize = 100; // Adjust the size of the cards
+let cardSize = 100; //size of the cards
 let numRows = 4;
 let numCols = 4;
 let selected = [];
-let matchedPairs = 0;
 let flippedCards = [];
 
 function preload() {
@@ -41,36 +40,27 @@ function drawMemoryGame() {
   for (let card of cards) {
     card.display();
   }
-  checkMatch();
+  if (flippedCards.length === 2) {
+    setTimeout(checkMatch, 1000); // Delay the check for better visibility
+  }
 }
 
 function mousePressed() {
   for (let card of cards) {
-    if (card.contains(mouseX, mouseY) && !card.isFaceUp) {
+    if (card.contains(mouseX, mouseY) && !card.isFaceUp && flippedCards.length < 2) {
       card.flip();
       flippedCards.push(card);
-
-      if (flippedCards.length === 2) {
-        noLoop();
-        setTimeout(() => {
-          checkMatch();
-          flippedCards = [];
-          loop();
-        }, 1000);
-      }
     }
   }
 }
-
 function checkMatch() {
-  if (flippedCards.length === 2) {
-    if (flippedCards[0].img === flippedCards[1].img) {
-      flippedCards[0].setMatched();
-      flippedCards[1].setMatched();
-    } else {
-      flippedCards[0].flip();
-      flippedCards[1].flip();
+  if (flippedCards[0].img === flippedCards[1].img) {
+    flippedCards = [];
+  } else {
+    for (let card of flippedCards) {
+      card.flip();
     }
+    flippedCards = [];
   }
 }
 
@@ -81,7 +71,6 @@ class Card {
     this.size = size;
     this.img = img;
     this.isFaceUp = false;
-    this.isMatched = false;
   }
 
   display() {
@@ -91,7 +80,7 @@ class Card {
     fill(this.isFaceUp ? color(200) : color(255));
     rect(this.x, this.y, this.size, this.size, 10);
 
-    if (this.isFaceUp && !this.isMatched) {
+    if (this.isFaceUp) {
       imageMode(CENTER);
       image(this.img, this.x, this.y, this.size * 0.8, this.size * 0.8); // Adjust the image size
     }
@@ -99,10 +88,6 @@ class Card {
 
   flip() {
     this.isFaceUp = !this.isFaceUp;
-  }
-
-  setMatched() {
-    this.isMatched = true;
   }
 
   contains(px, py) {
