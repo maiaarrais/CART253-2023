@@ -117,7 +117,7 @@ function draw() {
   
   // If it is solved
   if (isSolved()) {
-    console.log("SOLVED");
+    window.location.href = 'memoryGame.html';
   }
 }
 
