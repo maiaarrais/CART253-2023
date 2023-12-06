@@ -4,6 +4,8 @@ let numRows = 4;
 let numCols = 4;
 let selected = [];
 let flippedCards = [];
+let moves = 0;
+let startTime;
 
 function preload() {
   for (let i = 0; i < 8; i++) {
@@ -15,11 +17,13 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight);
   initializeMemoryGame();
+  startTime = millis(); // Record the start time
 }
 
 function draw() {
   background(220);
   drawMemoryGame();
+  displayStats();
 }
 
 function initializeMemoryGame() {
@@ -52,16 +56,40 @@ function mousePressed() {
       flippedCards.push(card);
     }
   }
+  // Increment moves counter
+  moves++;
 }
 function checkMatch() {
   if (flippedCards[0].img === flippedCards[1].img) {
     flippedCards = [];
+    checkWin();
   } else {
     for (let card of flippedCards) {
       card.flip();
     }
     flippedCards = [];
   }
+}
+
+function checkWin() {
+  if (cards.every((card) => card.isFaceUp)) {
+    let endTime = millis(); // Record the end time
+    let elapsedTime = (endTime - startTime) / 1000; // Calculate elapsed time in seconds
+    alert(`Congratulations! You won in ${moves} moves and ${elapsedTime} seconds.`);
+    nextScreen();
+  }
+}
+
+function nextScreen() {
+  window.location.href = 'space.html';
+}
+
+function displayStats() {
+  textSize(18);
+  fill(0);
+  text(`Moves: ${moves}`, 20, 30);
+  let elapsedTime = (millis() - startTime) / 1000; // Calculate elapsed time in seconds
+  text(`Time: ${nf(elapsedTime, 0, 2)} seconds`, 20, 60);
 }
 
 class Card {
