@@ -4,6 +4,7 @@ let numRows = 4;
 let numCols = 4;
 let selected = [];
 let matchedPairs = 0;
+let flippedCards = [];
 
 function preload() {
   for (let i = 0; i < 8; i++) {
@@ -14,7 +15,6 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  noLoop();
   initializeMemoryGame();
 }
 
@@ -41,36 +41,35 @@ function drawMemoryGame() {
   for (let card of cards) {
     card.display();
   }
+  checkMatch();
 }
 
 function mousePressed() {
   for (let card of cards) {
-    if (card.contains(mouseX, mouseY) && !card.isFaceUp && !card.isMatched) {
+    if (card.contains(mouseX, mouseY) && !card.isFaceUp) {
       card.flip();
-      checkMatch();
+      flippedCards.push(card);
+
+      if (flippedCards.length === 2) {
+        noLoop();
+        setTimeout(() => {
+          checkMatch();
+          flippedCards = [];
+          loop();
+        }, 1000);
+      }
     }
   }
 }
 
 function checkMatch() {
-  let flipped = cards.filter((card) => card.isFaceUp && !card.isMatched);
-
-  if (flipped.length === 2) {
-    if (flipped[0].img === flipped[1].img) {
-      for (let card of flipped) {
-        card.setMatched();
-        matchedPairs++;
-
-        if (matchedPairs === numCols * numRows / 2) {
-          console.log("You win!");
-        }
-      }
+  if (flippedCards.length === 2) {
+    if (flippedCards[0].img === flippedCards[1].img) {
+      flippedCards[0].setMatched();
+      flippedCards[1].setMatched();
     } else {
-      setTimeout(() => {
-        for (let card of flipped) {
-          card.flip();
-        }
-      }, 1000);
+      flippedCards[0].flip();
+      flippedCards[1].flip();
     }
   }
 }
@@ -92,7 +91,7 @@ class Card {
     fill(this.isFaceUp ? color(200) : color(255));
     rect(this.x, this.y, this.size, this.size, 10);
 
-    if (this.isFaceUp) {
+    if (this.isFaceUp && !this.isMatched) {
       imageMode(CENTER);
       image(this.img, this.x, this.y, this.size * 0.8, this.size * 0.8); // Adjust the image size
     }
