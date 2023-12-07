@@ -23,8 +23,6 @@
     function setup() {
       createCanvas(windowWidth, windowHeight);
       setInterval(changeTimePeriod, transitionDuration);
-
-      // Add a keyPressed event listener to play music on key press
     userStartAudio().then(function () {
     backgroundMusic.play();
     backgroundMusic.setVolume(0.5);

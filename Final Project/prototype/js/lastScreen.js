@@ -1,7 +1,10 @@
+let backgroundMusic;
+let isAudioPlaying = true;
 let travelerImage;
 let picture1, picture2, picture3;
 
 function preload() {
+  backgroundMusic = loadSound('assets/sounds/congrats.mp3');
   travelerImage = loadImage('assets/images/traveler.png');
   picture1 = loadImage('assets/images/papyrus.png');
   picture2 = loadImage('assets/images/ceremony.png');
@@ -12,13 +15,17 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   textSize(20);
   textAlign(CENTER, CENTER);
+  userStartAudio().then(function () {
+    backgroundMusic.play();
+    backgroundMusic.setVolume(0.5);
+  });
 }
 
 function draw() {
   background(255);
 
   // Display traveler image
-  image(travelerImage, 200 , 350, 200, 200);
+  image(travelerImage, 200 , 300, 200, 200);
 
   // Display congratulations message
   fill(0);

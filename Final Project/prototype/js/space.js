@@ -1,114 +1,149 @@
-let asteroids = [];
-let spaceship;
-let backgroundImage;
-let startTime; // Variable to store the start time
-let gameEnded = false;
-  
-function preload() {
-  spaceship = loadImage("assets/images/spaceship.png");
+  let asteroids = [];
+  let aliens = [];
+  let spaceship;
+  let backgroundImage;
+  let aliensEaten = 0;
 
-  asteroidImage1 = loadImage("assets/images/asteroid.png");
-  asteroidImage2 = loadImage("assets/images/meteor.png");
+    function preload() {
+      spaceship = loadImage("assets/images/spaceship.png");
+      asteroidImage = loadImage("assets/images/asteroid.png");
+      alienImage = loadImage("assets/images/alien.png");
+      backgroundImage = loadImage("assets/images/space.jpg");
+    }
 
-  backgroundImage = loadImage("assets/images/space.jpg");
-}
+    function setup() {
+      createCanvas(windowWidth, windowHeight);
+      noCursor();
+      spaceship = new Spaceship(spaceship);
+    }
 
-function setup() {
-  createCanvas(windowWidth, windowHeight);
-  noCursor();
-  initializeProgram();
-  startTime = millis();
-}
+    function draw() {
+      background(backgroundImage);
 
-function draw() {
-  background(backgroundImage); // Draw the background image
+      // Update and display each asteroid
+      for (let i = asteroids.length - 1; i >= 0; i--) {
+        let asteroid = asteroids[i];
+        asteroid.move();
+        asteroid.display();
 
-  if (!gameEnded) {
-    // Update and display each asteroid
-    for (let i = asteroids.length - 1; i >= 0; i--) {
-      let asteroid = asteroids[i];
-      asteroid.move();
-      asteroid.display();
+        // Check for collision with spaceship
+        if (spaceship.intersects(asteroid)) {
+          gameOver();
+        }
 
-      // Check for interaction
-      if (spaceshipIntersectsAsteroid(spaceship, asteroid)) {
-        gameOver();
+        // Remove asteroids that are out of the canvas
+        if (asteroid.x > width + asteroid.size / 2) {
+          asteroids.splice(i, 1);
+        }
       }
 
-      // Remove asteroids that are out of the canvas
-      if (asteroid.x > width + asteroid.segmentSize / 2) {
-        asteroids.splice(i, 1);
+      // Update and display each alien
+      for (let i = aliens.length - 1; i >= 0; i--) {
+        let alien = aliens[i];
+        alien.move();
+        alien.display();
+
+        // Check for collision with spaceship
+        if (spaceship.intersects(alien)) {
+          aliens.splice(i, 1);
+          aliensEaten++;
+        }
+
+        // Remove aliens that are out of the canvas
+        if (alien.x > width + alien.size / 2) {
+          aliens.splice(i, 1);
+        }
+      }
+
+      // Display spaceship
+      spaceship.update();
+      spaceship.display();
+
+      // Create new random asteroids
+      if (frameCount % 70 == 0) {
+        let newAsteroid = new Asteroid(asteroidImage);
+        asteroids.push(newAsteroid);
+      }
+
+      // Create new random aliens
+      if (frameCount % 100 == 0) {
+        let newAlien = new Alien(alienImage);
+        aliens.push(newAlien);
+      }
+
+      // Display counter
+      textSize(20);
+      fill(255);
+      text(`Aliens Eaten: ${aliensEaten}`, 20, 30);
+    }
+
+    function gameOver() {
+      window.location.href = 'lastScreen.html';
+    }
+
+    class Asteroid {
+      constructor(img) {
+        this.size = 40;
+        this.x = 0;
+        this.y = random(0, height);
+        this.speed = 5;
+        this.img = img;
+      }
+
+      move() {
+        this.x += this.speed;
+      }
+
+      display() {
+        image(this.img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
       }
     }
-  }
-  
-  // User movement
-  spaceship.x = mouseX;
-  spaceship.y = mouseY;
 
-  // Create new random asteroids
-  if (frameCount % 70 == 0) {
-    let newAsteroid;
-    if (random() > 0.5) {
-      newAsteroid = new Asteroid(asteroidImage1);
-    } else {
-      newAsteroid = new Asteroid(asteroidImage2);
+    class Alien {
+      constructor(img) {
+        this.size = 40;
+        this.x = 0;
+        this.y = random(0, height);
+        this.speed = 7;
+        this.img = img;
+      }
+
+      move() {
+        this.x += this.speed;
+      }
+
+      display() {
+        image(this.img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+      }
     }
-    asteroids.push(newAsteroid);
-  }
 
-  // Display spaceship
-  image(spaceship, spaceship.x - spaceship.width / 2, spaceship.y - spaceship.height / 2, 60, 60);
-}
+    class Spaceship {
+      constructor(img) {
+        this.size = 60;
+        this.x = width / 2;
+        this.y = height / 2;
+        this.img = img;
+      }
+
+      update() {
+        this.x = mouseX;
+        this.y = mouseY;
+      }
+
+      display() {
+        image(this.img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+      }
+
+      intersects(object) {
+        // Check if any point on the object is inside the spaceship's bounding box
+        return (
+          this.x - this.size / 2 < object.x + object.size / 2 &&
+          this.x + this.size / 2 > object.x - object.size / 2 &&
+          this.y - this.size / 2 < object.y + object.size / 2 &&
+          this.y + this.size / 2 > object.y - object.size / 2
+        );
+      }
+    }
 
 
-function gameOver() {
-    // Open a new window
-    window.location.href = 'lastScreen.html';
-  // Stop the game loop
- gameEnded = true;
-}
-
-function spaceshipIntersectsAsteroid(spaceship, asteroid) {
-  // Check if any point on the spaceship is inside the asteroid's bounding box
-  return (
-    spaceship.x - spaceship.width / 2 < asteroid.x + asteroid.segmentSize / 2 &&
-    spaceship.x + spaceship.width / 2 > asteroid.x - asteroid.segmentSize / 2 &&
-    spaceship.y - spaceship.height / 2 < asteroid.y + asteroid.segmentSize / 2 &&
-    spaceship.y + spaceship.height / 2 > asteroid.y - asteroid.segmentSize / 2
-  );
-}
-
-class Asteroid {
-  constructor(img) {
-    this.x = 0;
-    this.y = random(0, height);
-    this.segmentSize = 40;
-    this.vx = 0;
-    this.vy = 0;
-    this.speed = 10;
-    this.img = img;
-    this.vx = this.speed;
-  }
-
-  move() {
-    this.x = this.x + this.vx;
-    this.y = this.y + this.vy;
-  }
-
-  display() {
-    image(this.img, this.x - this.segmentSize / 2, this.y - this.segmentSize / 2, this.segmentSize, this.segmentSize);
-  }
-}
-
-function initializeProgram() {
-  asteroids = []; // Clear the array to start with no asteroids
-  loop(); // Start or resume the program loop
-}
-
-function keyPressed() {
-  if (key === "r" || key === "R") {
-    initializeProgram(); // Reset the program when 'r' or 'R' is pressed
-  }
-}
 
