@@ -1,3 +1,5 @@
+let startGame = confirm("Welcome to the roaring 20's. To learn about the some of the iconic symbols of the time click 'OK'.");
+if (startGame) {
 let cards = [];
 let cardSize = 100; //size of the cards
 let numRows = 4;
@@ -12,6 +14,7 @@ function preload() {
     let img = loadImage("assets/images/card" + i + ".png");
     selected.push(img);
   }
+
 }
 
 function setup() {
@@ -21,7 +24,7 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  background(255,215,0);
   drawMemoryGame();
   displayStats();
 }
@@ -126,6 +129,7 @@ class Card {
       py < this.y + this.size / 2
     );
   }
+}
 }
 
 

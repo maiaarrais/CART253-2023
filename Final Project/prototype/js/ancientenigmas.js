@@ -37,11 +37,11 @@ function draw() {
     drawTextBox();
   } else if (isOnSecondScreen){
     // Draw the second screen
-    background(200); 
+    background(backgroundImage); 
     drawOptions();
   } else if (isOnThirdScreen){
     // Draw the third screen
-    background(150); 
+    background(backgroundImage); 
     drawFinalScreen();
   }
 }
