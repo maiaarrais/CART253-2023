@@ -65,7 +65,6 @@ class Tile {
 }
 
 // Pick a random spot to attempt a move
-// This should be improved to select from only valid moves
 function randomMove(arr) {
   let r1 = floor(random(cols));
   let r2 = floor(random(rows));
@@ -158,7 +157,6 @@ function isNeighbor(i, j, x, y) {
 
 
 // Probably could just use a variable
-// to track blank spot
 function findBlank() {
   for (let i = 0; i < board.length; i++) {
     if (board[i] == -1) return i;

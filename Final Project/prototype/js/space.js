@@ -117,7 +117,7 @@
         window.location.href = 'lastScreen.html';
       }, 1000); // Redirect after x seconds
     }
-
+// Define a class for asteroids
     class Asteroid {
       constructor(img) {
         this.size = 80;
@@ -126,17 +126,18 @@
         this.speed = 5;
         this.img = img;
       }
-
+ // Method to update the asteroid's position
       move() {
         this.x += this.speed;
       }
-
+// Method to display the asteroid on the canvas
       display() {
         image(this.img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
       }
     }
 
     class Alien {
+      // Constructor for creating an alien object
       constructor(img) {
         this.size = 40;
         this.x = 0;
@@ -144,7 +145,7 @@
         this.speed = 7;
         this.img = img;
       }
-
+// Method to update the alien's position
       move() {
         this.x += this.speed;
       }
@@ -153,7 +154,7 @@
         image(this.img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
       }
     }
-
+// Define a class for the player's spaceship
     class Spaceship {
       constructor(img) {
         this.size = 70;
@@ -169,6 +170,7 @@
 
       display() {
         image(this.img, this.x - this.size / 2, this.y - this.size / 2, this.size, this.size);
+        // Display the image at the calculated position with specified size
       }
 
       intersects(object) {

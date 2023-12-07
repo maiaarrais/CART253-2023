@@ -64,7 +64,6 @@ class Tile {
 }
 
 // Pick a random spot to attempt a move
-// This should be improved to select from only valid moves
 function randomMove(arr) {
   let r1 = floor(random(cols));
   let r2 = floor(random(rows));
