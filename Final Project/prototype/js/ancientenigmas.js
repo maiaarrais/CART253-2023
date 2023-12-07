@@ -11,7 +11,7 @@ let mediumPuzzle;
 let hardPuzzle;
 
 function preload() {
-  // Load your background and narrator images
+  // Load background and narrator images
   backgroundImage = loadImage('assets/images/ancientbg.jpeg');
   narratorImage = loadImage('assets/images/traveler.png');
   //load pictures puzzle
