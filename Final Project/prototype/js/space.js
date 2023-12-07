@@ -23,24 +23,22 @@ function draw() {
   
   background(backgroundImage); // Draw the background image
   
-  // Update and display each asteroid
-  for (let i = asteroids.length - 1; i >= 0; i--) {
-    let asteroid = asteroids[i];
-    asteroid.move();
-    asteroid.display();
-
-  // Check for interaction
-  let collisionRadius = (asteroid.segmentSize + spaceship.width) / 4; // Simplified collision check
-  if (dist(spaceship.x, spaceship.y, asteroid.x, asteroid.y) < collisionRadius) {
-    gameOver();
-  }
-
-    // Remove asteroids that are out of the canvas
-    if (asteroid.x > width + asteroid.segmentSize / 2) {
-      asteroids.splice(i, 1);
+    // Update and display each asteroid
+    for (let i = asteroids.length - 1; i >= 0; i--) {
+      let asteroid = asteroids[i];
+      asteroid.move();
+      asteroid.display();
+  
+     // Check for interaction
+    if (spaceshipIntersectsAsteroid(spaceship, asteroid)) {
+      gameOver();
     }
-  }
-
+      // Remove asteroids that are out of the canvas
+      if (asteroid.x > width + asteroid.segmentSize / 2) {
+        asteroids.splice(i, 1);
+      }
+    }
+  
   // User movement
   spaceship.x = mouseX;
   spaceship.y = mouseY;
@@ -64,12 +62,12 @@ function draw() {
 function gameOver() {
   let playDuration = (millis() - startTime) / 1000; // Calculate play duration in seconds
 
-  if (playDuration < 45) {
+  if (playDuration < 45 && !collisionRadius) {
     // Restart the game
     initializeProgram();
   } else {
-    // Open a new window (replace 'your_url_here' with the actual URL)
-    window.open('lastScreen.html');
+    // Open a new window
+    window.location.href = 'lastScreen.html';
   }
 
   // Stop the game loop
