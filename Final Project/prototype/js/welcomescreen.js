@@ -5,6 +5,7 @@
     let currentBackgroundColor = 0;
     let transitionDuration = 3000;
     let backgroundMusic;
+    let isAudioPlaying = true;
 
     // Particle variables
     let particles = [];
@@ -23,10 +24,11 @@
       createCanvas(windowWidth, windowHeight);
       setInterval(changeTimePeriod, transitionDuration);
 
-      //Music for the main screen 
-      backgroundMusic.play();
-      backgroundMusic.setVolume(0.5); //volume of the music (50%)
-
+      // Add a keyPressed event listener to play music on key press
+    userStartAudio().then(function () {
+    backgroundMusic.play();
+    backgroundMusic.setVolume(0.5);
+  });
       // Create initial particles
       for (let i = 0; i < 100; i++) {
         particles.push(new Particle());
@@ -106,6 +108,17 @@
 
     function mouseClicked() {
       window.location.href = "games.html";
+    }
+
+    function keyPressed() {
+      if (keyCode === 32) { // Use the keyCode for the spacebar (32)
+        if (isAudioPlaying) {
+          backgroundMusic.pause(); // Pause the audio
+        } else {
+          backgroundMusic.play(); // Resume playing the audio
+        }
+        isAudioPlaying = !isAudioPlaying; // Toggle the audio state
+      }
     }
 
     // Particle class
