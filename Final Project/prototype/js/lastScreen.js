@@ -1,135 +1,58 @@
-   
-   
-   
-   let backgroundColors = ['#000', '#002633', '#330000'];
-    let currentBackgroundColor = 0;
-    let transitionDuration = 3000;
-    let backgroundMusic;
+let travelerImage;
+let picture1, picture2, picture3;
 
-    // Particle variables
-    let particles = [];
+function preload() {
+  travelerImage = loadImage('assets/images/traveler.png');
+  picture1 = loadImage('assets/images/papyrus.png');
+  picture2 = loadImage('assets/images/ceremony.png');
+  picture3 = loadImage('assets/images/galaxy.png');
+}
 
-    // Spiral variables
-    let angle = 0;
-    let angleIncrement = 0.05;
-    let radiusIncrement = 0.5;
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  textSize(20);
+  textAlign(CENTER, CENTER);
+}
 
-    function preload() {
-      //background music file
-      backgroundMusic = loadSound('assets/sounds/backgroundMusic.mp3');
-    }
+function draw() {
+  background(255);
 
-    function setup() {
-      createCanvas(windowWidth, windowHeight);
-      setInterval(changeTimePeriod, transitionDuration);
+  // Display traveler image
+  image(travelerImage, 200 , 350, 200, 200);
 
-      //Music for the main screen 
-      backgroundMusic.play();
-      backgroundMusic.setVolume(0.5); //volume of the music (50%)
+  // Display congratulations message
+  fill(0);
+  text('Congratulations!', width / 2, height / 2 - 50);
+  text('You received these badges for completing all levels', width /2, height / 2);
+  text('You have successfully traveled through time!', width / 2, height / 2 + 50);
 
-      // Create initial particles
-      for (let i = 0; i < 100; i++) {
-        particles.push(new Particle());
-      }
-    }
+  // Display confetti animation
+  for (let i = 0; i < 5; i++) {
+    let x = random(width);
+    let y = random(height);
+    drawConfetti(x, y);
+  }
 
-    function draw() {
-      background(backgroundColors[currentBackgroundColor]);
-      updateParticles();
-      drawTimeMachine();
-      updateSpiral();
-      displayWelcomeText();
-    }
+  // Display three pictures
+  displayPicture('', width / 6, height / 2 - 200, picture1);
+  displayPicture('', width / 2, height / 2 -200, picture2);
+  displayPicture('', width * 5 / 6, height / 2 - 200, picture3);
+}
 
-    function drawTimeMachine() {
-      translate(width / 2, height / 2);
+function drawConfetti(x, y) {
+  fill(random(255), random(255), random(255));
+  rect(x, y, 10, 10);
+}
 
-      // Draw the outer rings of the time machine
-      for (let i = 0; i < 5; i++) {
-        stroke(255, 150);
-        noFill();
-        strokeWeight(2);
-        ellipse(0, 0, i * 120, i * 120); // adjustment of spiral size
-      }
+function displayPicture(label, x, y, picture) {
+  // Draw picture frame
+  fill(255);
+  rect(x - 50, y - 50, 100, 100);
 
-      // Draw the central vortex
-      noStroke();
-      fill(255, 50);
-      ellipse(0, 0, 50, 50);
-    }
-    // for the spirals and how they're displayed 
-    function updateSpiral() {
-      push(); // Save the current transformation state
-      translate(0, 0);
-      rotate(angle);
-      let radius = 0;
-
-      for (let i = 0; i < 600; i++) { // Increased the number of points for a denser spiral
-        let x = radius * cos(i);
-        let y = radius * sin(i);
-        fill(255);
-        ellipse(x, y, 5, 5);
-        radius += radiusIncrement;
-      }
-
-      pop(); // Restore the previous transformation state
-      angle += angleIncrement;
-    }
-
-    // for the particles 
-    function updateParticles() {
-      for (let particle of particles) {
-        particle.update();
-        particle.display();
-      }
-    }
-
-    function displayWelcomeText() {
-      // Border
-      stroke(0);
-      strokeWeight(5);
-      //title 
-      fill(255);
-      textSize(55);
-      textAlign(CENTER, CENTER);
-      text('Time Travel Quest', 0, 0);
-      //subtitle
-      textSize(30);
-      text('Click to Start', 0, 50);
-      // Reset stroke settings
-      noStroke();
-    }
-
-    function changeTimePeriod() {
-      currentBackgroundColor = (currentBackgroundColor + 1) % backgroundColors.length;
-    }
-
-    function mouseClicked() {
-      window.location.href = "games.html";
-    }
-
-    // Particle class
-    class Particle {
-      constructor() {
-        this.position = createVector(random(width), random(height));
-        this.velocity = createVector(random(-2, 2), random(-2, 2));
-        this.size = random(5, 15);
-        this.color = color(random(255), random(255), random(255));
-      }
-
-      update() {
-        this.position.add(this.velocity);
-
-        // Wrap around the screen
-        if (this.position.x < 0) this.position.x = width;
-        if (this.position.x > width) this.position.x = 0;
-        if (this.position.y < 0) this.position.y = height;
-        if (this.position.y > height) this.position.y = 0;
-      }
-
-      display() {
-        noStroke();
-        fill(this.color);
-        ellipse(this.position.x, this.position.y, this.size, this.size);
-      }
-    }
+  // Display picture label
+  fill(0);
+  text(label, x, y);
+  
+  // Display the picture
+  image(picture, x - 50, y - 50, 100, 100);
+}

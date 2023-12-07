@@ -2,6 +2,7 @@ let asteroids = [];
 let spaceship;
 let backgroundImage;
 let startTime; // Variable to store the start time
+let gameEnded = false;
   
 function preload() {
   spaceship = loadImage("assets/images/spaceship.png");
@@ -20,24 +21,26 @@ function setup() {
 }
 
 function draw() {
-  
   background(backgroundImage); // Draw the background image
-  
+
+  if (!gameEnded) {
     // Update and display each asteroid
     for (let i = asteroids.length - 1; i >= 0; i--) {
       let asteroid = asteroids[i];
       asteroid.move();
       asteroid.display();
-  
-     // Check for interaction
-    if (spaceshipIntersectsAsteroid(spaceship, asteroid)) {
-      gameOver();
-    }
+
+      // Check for interaction
+      if (spaceshipIntersectsAsteroid(spaceship, asteroid)) {
+        gameOver();
+      }
+
       // Remove asteroids that are out of the canvas
       if (asteroid.x > width + asteroid.segmentSize / 2) {
         asteroids.splice(i, 1);
       }
     }
+  }
   
   // User movement
   spaceship.x = mouseX;
@@ -60,20 +63,21 @@ function draw() {
 
 
 function gameOver() {
-  let playDuration = (millis() - startTime) / 1000; // Calculate play duration in seconds
-
-  if (playDuration < 45 && !collisionRadius) {
-    // Restart the game
-    initializeProgram();
-  } else {
     // Open a new window
     window.location.href = 'lastScreen.html';
-  }
-
   // Stop the game loop
-  noLoop();
+ gameEnded = true;
 }
 
+function spaceshipIntersectsAsteroid(spaceship, asteroid) {
+  // Check if any point on the spaceship is inside the asteroid's bounding box
+  return (
+    spaceship.x - spaceship.width / 2 < asteroid.x + asteroid.segmentSize / 2 &&
+    spaceship.x + spaceship.width / 2 > asteroid.x - asteroid.segmentSize / 2 &&
+    spaceship.y - spaceship.height / 2 < asteroid.y + asteroid.segmentSize / 2 &&
+    spaceship.y + spaceship.height / 2 > asteroid.y - asteroid.segmentSize / 2
+  );
+}
 
 class Asteroid {
   constructor(img) {
