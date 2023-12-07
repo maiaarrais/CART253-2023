@@ -63,3 +63,4 @@ function displayPicture(label, x, y, picture) {
   // Display the picture
   image(picture, x - 50, y - 50, 100, 100);
 }
+

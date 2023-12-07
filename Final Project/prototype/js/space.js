@@ -60,7 +60,7 @@
       spaceship.display();
 
       // Create new random asteroids
-      if (frameCount % 70 == 0) {
+      if (frameCount % 60 == 0) {
         let newAsteroid = new Asteroid(asteroidImage);
         asteroids.push(newAsteroid);
       }
@@ -103,16 +103,24 @@
       aliensEaten = 0;
       spaceship = new Spaceship(spaceship.img);
     }
-    
 
     function openNewWindow() {
-      alert(`Congratulations! \n You've completed the mission! You've eaten ${aliensEaten} aliens!`);
-      window.location.href = 'lastScreen.html';
+      let congratsMessage = createDiv(`Congratulations!<br>You've completed the mission! You've eaten ${aliensEaten} aliens!`);
+      congratsMessage.position(width / 2, height / 2);
+      congratsMessage.style("background-color", "#333");
+      congratsMessage.style("color", "#fff");
+      congratsMessage.style("padding", "50px");
+      congratsMessage.style("border-radius", "10px");
+      congratsMessage.center("horizontal");
+    
+      setTimeout(() => {
+        window.location.href = 'lastScreen.html';
+      }, 1000); // Redirect after x seconds
     }
 
     class Asteroid {
       constructor(img) {
-        this.size = 40;
+        this.size = 80;
         this.x = 0;
         this.y = random(0, height);
         this.speed = 5;
@@ -148,7 +156,7 @@
 
     class Spaceship {
       constructor(img) {
-        this.size = 60;
+        this.size = 70;
         this.x = width / 2;
         this.y = height / 2;
         this.img = img;
@@ -173,3 +181,4 @@
         );
       }
     }
+
