@@ -15,6 +15,7 @@
       createCanvas(windowWidth, windowHeight);
       noCursor();
       spaceship = new Spaceship(spaceship);
+      alert("Welcome to the future in space!\nUse your mouse to control the spaceship.\nAvoid asteroids and take at least 15 aliens with you!");
     }
 
     function draw() {
@@ -28,7 +29,7 @@
 
         // Check for collision with spaceship
         if (spaceship.intersects(asteroid)) {
-          gameOver();
+          handleCollision();
         }
 
         // Remove asteroids that are out of the canvas
@@ -45,8 +46,7 @@
 
         // Check for collision with spaceship
         if (spaceship.intersects(alien)) {
-          aliens.splice(i, 1);
-          aliensEaten++;
+          handleAlienEaten(alien);
         }
 
         // Remove aliens that are out of the canvas
@@ -77,7 +77,36 @@
       text(`Aliens Eaten: ${aliensEaten}`, 20, 30);
     }
 
-    function gameOver() {
+    function handleCollision() {
+      if (aliensEaten >= 15) {
+        openNewWindow();
+      } else {
+        resetGame();
+      }
+    }
+
+    function handleAlienEaten(alien) {
+      aliens.splice(aliens.indexOf(alien), 1);
+      aliensEaten++;
+    }
+
+    function resetGame() {
+      alert("Collision! Restarting the game.");
+      noLoop();
+      initializeGame();
+      loop(); // Resume the game loop
+    }
+
+    function initializeGame() {
+      asteroids = [];
+      aliens = [];
+      aliensEaten = 0;
+      spaceship = new Spaceship(spaceship.img);
+    }
+    
+
+    function openNewWindow() {
+      alert(`Congratulations! \n You've completed the mission! You've eaten ${aliensEaten} aliens!`);
       window.location.href = 'lastScreen.html';
     }
 
@@ -144,6 +173,3 @@
         );
       }
     }
-
-
-
